@@ -10,9 +10,8 @@ The application can also control an RGB LED connected to the Raspberry Pi. The L
 ## Setup
 Clone the repository locally:
 ```
-mkdir -p ~/smart-home
-cd ~/smart-home
-git clone *git repo link*
+cd ~/
+git clone https://github.com/vladkobli/smart-home.git
 ```
 Create a python environment to install all the prerequisites:
 ```
