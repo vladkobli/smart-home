@@ -1,0 +1,182 @@
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h2>Smart Home</h2>
+
+    <div class="nav-item"
+         [class.active]="activeTab === 'dashboard'"
+         (click)="setTab('dashboard')">
+      Dashboard
+    </div>
+
+    <div class="nav-item"
+         [class.active]="activeTab === 'sensors'"
+         (click)="setTab('sensors')">
+      Sensors
+    </div>
+
+    <div class="nav-item"
+         [class.active]="activeTab === 'tips'"
+         (click)="setTab('tips')">
+      Tips
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- DASHBOARD -->
+    <div *ngIf="activeTab === 'dashboard'">
+
+      <div class="topbar">
+        <h1>Environment Dashboard</h1>
+        <p>Live IoT monitoring system</p>
+      </div>
+
+      <!-- CONTEXT -->
+      <div class="context-banner">
+        <p>{{ contextMessage }}</p>
+      </div>
+
+      <div class="status-card">
+        <div>
+          <h2>{{ comfortMessage }}</h2>
+          <p>Comfort Score</p>
+        </div>
+        <div class="score">{{ comfortScore }}/100</div>
+      </div>
+
+      <div class="panel">
+        <h3>Home Status Profiles</h3>
+        <p class="subtle">Select your current status to adapt desired conditions.</p>
+
+        <div class="button-row">
+          <button
+            *ngFor="let profile of statusProfiles"
+            class="status-button"
+            [class.active]="activeStatusKey === profile.key"
+            (click)="applyStatusProfile(profile.key)">
+            {{ profile.label }}
+          </button>
+        </div>
+
+        <div class="targets-grid">
+          <div>
+            <p class="label">Temperature target</p>
+            <p>{{ targetTemperatureMin }}-{{ targetTemperatureMax }} °C</p>
+          </div>
+          <div>
+            <p class="label">Humidity target</p>
+            <p>{{ humidityTargetLabel }}</p>
+          </div>
+          <div>
+            <p class="label">Main goal</p>
+            <p>{{ mainGoal }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid">
+
+        <div class="card">
+          <div>
+            <h3>Temperature</h3>
+            <p>{{ temperature }} °C</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div>
+            <h3>Humidity</h3>
+            <p>{{ humidity }} %</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="panel">
+        <h3>RGB Light Control</h3>
+
+        <div class="button-row">
+          <button class="status-button" [class.active]="ledMode === 'auto'" (click)="setLedMode('auto')">
+            Auto
+          </button>
+          <button class="status-button" [class.active]="ledMode === 'manual'" (click)="setLedMode('manual')">
+            Manual
+          </button>
+          <button class="status-button" (click)="turnOff()">Turn Off</button>
+        </div>
+
+        <p class="subtle">Current LED rule: {{ activeLedRule }}</p>
+
+        <div class="led-preview" [style.background]="'rgb(' + red + ',' + green + ',' + blue + ')'">
+          LED Preview
+        </div>
+
+        <div *ngIf="ledMode === 'manual'" class="slider-grid">
+          <label>
+            Red: {{ red }}
+            <input type="range" min="0" max="255" [(ngModel)]="red">
+          </label>
+
+          <label>
+            Green: {{ green }}
+            <input type="range" min="0" max="255" [(ngModel)]="green">
+          </label>
+
+          <label>
+            Blue: {{ blue }}
+            <input type="range" min="0" max="255" [(ngModel)]="blue">
+          </label>
+
+          <button class="status-button active" (click)="setLed()">Apply Custom Color</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SENSORS -->
+    <div *ngIf="activeTab === 'sensors'">
+      <h2>Sensor Data</h2>
+
+      <div class="panel">
+        <p>Temperature: <b>{{ temperature }} °C</b></p>
+        <p>Humidity: <b>{{ humidity }} %</b></p>
+        <p>Current profile: <b>{{ activeStatusProfile?.label }}</b></p>
+        <p>Target temperature: <b>{{ targetTemperatureMin }}-{{ targetTemperatureMax }} °C</b></p>
+        <p>Target humidity: <b>{{ humidityTargetLabel }}</b></p>
+      </div>
+    </div>
+
+    <!-- TIPS (ONLY PLACE AI SHOWS) -->
+    <div *ngIf="activeTab === 'tips'">
+
+      <h2>AI Recommendations</h2>
+
+      <div class="panel" *ngIf="aiRecommendation">
+
+        <h3>{{ aiRecommendation.title }}</h3>
+
+        <p>{{ aiRecommendation.analysis }}</p>
+
+        <div>
+          <b>Actions:</b>
+          <ul>
+            <li *ngFor="let a of aiRecommendation.actions">
+              {{ a }}
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="panel" *ngIf="!aiRecommendation">
+        <p>AI unavailable or loading...</p>
+      </div>
+
+    </div>
+
+  </div>
+</div>
