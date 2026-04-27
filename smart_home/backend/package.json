@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@angular/material": "^21.2.8",
+    "chart.js": "^4.5.1",
+    "ng2-charts": "^10.0.0",
+    "socket.io": "^4.8.3",
+    "socket.io-client": "^4.8.3"
+  }
+}
